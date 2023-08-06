@@ -3,9 +3,15 @@ package com.jpaprac.j1p.dto.page;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PageResponseDTO<E> {
 	
 	private List<E> dtoList;

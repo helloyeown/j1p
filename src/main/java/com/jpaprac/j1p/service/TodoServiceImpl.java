@@ -33,15 +33,32 @@ public class TodoServiceImpl implements TodoService {
         Pageable pageable = PageRequest.of(0, 20, Sort.by("tno").descending());
 
         Page<Todo> result = repository.findAll(pageable);
+        log.info("result------------------------ " + result);
 
-        List<TodoDTO> list = result.getContent().stream().map(todo -> modelMapper.map(result, TodoDTO.class)).collect(Collectors.toList());
+        List<TodoDTO> list = result.getContent().stream().map(todo -> modelMapper.map(todo, TodoDTO.class)).collect(Collectors.toList());
+        log.info("list------------------- " + list);
 
-        // PageResponseDTO<TodoDTO> response = new PageResponseDTO<>(list, null, null);
-        // response.setDtoList(list);
+        PageResponseDTO<TodoDTO> response = new PageResponseDTO<>();
+        response.setDtoList(list);
 
-        // return response;
+        return response;
 
-        return null;
+        // return null;
+
+    }
+
+    // 등록
+    @Override
+    public TodoDTO register(TodoDTO dto) {
+
+        // dto -> entity
+        Todo entity = modelMapper.map(dto, Todo.class);
+
+        // entity save
+        Todo result = repository.save(entity);
+
+        // save한 결과를 다시 dto 타입으로 변환
+        return modelMapper.map(result, TodoDTO.class);
 
     }
 
