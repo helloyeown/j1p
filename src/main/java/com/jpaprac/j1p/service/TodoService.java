@@ -12,4 +12,6 @@ public interface TodoService {
 
     TodoDTO register(TodoDTO dto);
 
+    TodoDTO getOne(Long tno);
+
 }

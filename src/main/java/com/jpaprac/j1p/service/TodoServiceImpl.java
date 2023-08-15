@@ -1,6 +1,7 @@
 package com.jpaprac.j1p.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -59,6 +60,19 @@ public class TodoServiceImpl implements TodoService {
 
         // save한 결과를 다시 dto 타입으로 변환
         return modelMapper.map(result, TodoDTO.class);
+
+    }
+
+    @Override
+    public TodoDTO getOne(Long tno) {
+
+        Optional<Todo> result = repository.findById(tno);
+
+        Todo todo = result.orElseThrow();
+
+        TodoDTO dto = modelMapper.map(todo, TodoDTO.class);
+
+        return dto;
 
     }
 

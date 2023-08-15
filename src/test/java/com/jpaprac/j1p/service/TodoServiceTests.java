@@ -20,4 +20,11 @@ public class TodoServiceTests {
 
     }
 
+    @Test
+    public void getOneTest(){
+        
+        log.info(todoService.getOne(1L));
+
+    }
+
 }
