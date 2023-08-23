@@ -1,10 +1,11 @@
 package com.jpaprac.j1p.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,25 +14,23 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "tbl_todo")
+@Table(name = "t_reply")
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
+@ToString(exclude = "board")
 @Getter
-public class Todo {
+public class Reply {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)     // AI, PK
-    private Long tno;       // 반드시 객체자료형 사용
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long rno;
 
-    @Column(length = 300, nullable = false)     // not null
-    private String title;
+    private String reply;
+    private String replyFile;
+    private String replyer;
 
-    public void changeTitel(String title){
-
-        this.title = title;
-
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Board board;
 
 }

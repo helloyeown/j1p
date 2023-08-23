@@ -59,13 +59,33 @@ public class TodoRepositoryTests {
     @Test
     public void readTest(){
 
-        Optional<Todo> result = todoRepository.findById(1L);
+        Optional<Todo> result = todoRepository.findById(100L);
 
         Todo entity = result.orElseThrow();
         log.info("entity: " + entity);
 
         TodoDTO dto = modelMapper.map(entity, TodoDTO.class);
         log.info("dto: " + dto);
+
+    }
+
+    // 삭제
+    @Test
+    public void deleteTest(){
+
+        todoRepository.deleteById(100L);
+
+    }
+
+    // 수정
+    @Test
+    public void modifyTest(){
+
+        Optional<Todo> result = todoRepository.findById(1L);
+        Todo todo = result.orElseThrow();
+
+        todo.changeTitel("modified");
+        todoRepository.save(todo);
 
     }
 

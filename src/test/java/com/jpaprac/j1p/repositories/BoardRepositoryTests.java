@@ -135,4 +135,22 @@ public class BoardRepositoryTests {
 
     }
 
+    @Test
+    public void RCntTest(){
+
+        List<Object[]> result = repository.getListWithRCnt();
+
+        for (Object[] board : result) {
+            log.info(Arrays.toString(board));
+        }
+    }
+
+    @Test
+    public void testListWithRCntSearch(){
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+        repository.searchWithRCnt(null, null, pageable);
+
+    }
+
 }

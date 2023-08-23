@@ -10,4 +10,6 @@ public interface BoardSearch {
     // v1
     Page<Board> search1(String searchType, String keyword);
 
+    Page<Object[]> searchWithRCnt(String searchType, String keyword, Pageable pageable);
+
 }
