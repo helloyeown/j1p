@@ -9,8 +9,12 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import com.jpaprac.j1p.domain.Board;
 import com.jpaprac.j1p.domain.QBoard;
 import com.jpaprac.j1p.domain.QReply;
+import com.jpaprac.j1p.dto.board.BoardListRCntDTO;
+import com.jpaprac.j1p.dto.page.PageRequestDTO;
+import com.jpaprac.j1p.dto.page.PageResponseDTO;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 
 import lombok.extern.log4j.Log4j2;
@@ -76,6 +80,49 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         log.info("count: " + count);
 
         return null;
+
+    }
+
+    @Override
+    public PageResponseDTO<BoardListRCntDTO> searchDTORCnt(PageRequestDTO dto) {
+
+        QBoard board = QBoard.board;
+        QReply reply = QReply.reply1;
+
+        JPQLQuery<Board> query = from(board);
+        query.leftJoin(reply).on(reply.board.eq(board));
+
+        String keyword = dto.getKeyword();
+        String type = dto.getType();
+
+        if(keyword != null && type != null){
+
+            String[] types = type.split("");
+
+            // where에 해당하는 부분
+            BooleanBuilder searchBuilder = new BooleanBuilder();
+
+            for (String eachType : types) {
+                
+                switch (eachType) {
+                    case "t" -> searchBuilder.or(board.title.contains(keyword));
+                    case "c" -> searchBuilder.or(board.content.contains(keyword));
+                    case "w" -> searchBuilder.or(board.writer.contains(keyword));
+                }
+            }
+            query.where(searchBuilder);
+        }
+
+        this.getQuerydsl().applyPagination(makePageable(dto), query);
+        query.groupBy(board);
+
+        JPQLQuery<BoardListRCntDTO> listQuery = query.select
+            (Projections.bean(BoardListRCntDTO.class, board.bno, board.title, board.writer, reply.countDistinct().as("rcnt")));
+
+        List<BoardListRCntDTO> list = listQuery.fetch();
+        long totalCount = listQuery.fetchCount();
+
+        return new PageResponseDTO<>(list, totalCount, dto);
 
     }
     

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import com.jpaprac.j1p.domain.Board;
+import com.jpaprac.j1p.dto.page.PageRequestDTO;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
@@ -150,6 +151,13 @@ public class BoardRepositoryTests {
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
         repository.searchWithRCnt(null, null, pageable);
+
+    }
+
+    @Test
+    public void testListWithRCntSearch2(){
+
+        log.info(repository.searchDTORCnt(new PageRequestDTO(1, 10, "t", "8")));
 
     }
 
