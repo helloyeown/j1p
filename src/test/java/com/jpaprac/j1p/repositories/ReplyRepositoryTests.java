@@ -68,4 +68,12 @@ public class ReplyRepositoryTests {
 
     }
 
+    // 댓글 갯수
+    @Test
+    public void replyCountTest(){
+
+        log.info(repository.getCountReply(99L));
+
+    }
+
 }

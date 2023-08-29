@@ -161,4 +161,11 @@ public class BoardRepositoryTests {
 
     }
 
+    @Test
+    public void readTest2(){
+
+        log.info(repository.readBoard(102L));
+
+    }
+
 }

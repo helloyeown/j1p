@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.jpaprac.j1p.domain.Board;
+import com.jpaprac.j1p.dto.board.BoardReadDTO;
 import com.jpaprac.j1p.repositories.search.BoardSearch;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch {
@@ -35,5 +36,8 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch
 
     @Query("select b.bno, b.title, b.writer, count(r) from Board b left outer join Reply r on r.board = b group by b order by b.bno desc")
     List<Object[]> getListWithRCnt();
+
+    @Query("select b from Board b where b.bno = :bno")
+    BoardReadDTO readBoard(@Param("bno") Long bno);
 
 }

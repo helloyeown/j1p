@@ -23,4 +23,11 @@ public class BoardServiceTests {
 
     }
 
+    @Test
+    public void readTest(){
+
+        log.info(boardService.readBoard(102L));
+
+    }
+
 }
