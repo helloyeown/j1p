@@ -1,6 +1,7 @@
 package com.jpaprac.j1p.service.reply;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -35,7 +36,9 @@ public class ReplyServiceImpl implements ReplyService {
 
         if(last){
             long totalCount = repository.getCountReply(dto.getBno());
+            // last가 true일 경우 전체 페이지 수를 계산해서 pageNum을 끝 페이지로 설정해줌
             pageNum = (int)(Math.ceil(totalCount / (double)dto.getSize()));
+            pageNum = pageNum <= 0 ? 1 : pageNum;
         }
 
         Pageable pageable = PageRequest.of(pageNum - 1, dto.getSize(), Sort.by("rno").ascending());
@@ -48,6 +51,30 @@ public class ReplyServiceImpl implements ReplyService {
         responseDTO.setPage(pageNum);
 
         return responseDTO;
+
+    }
+
+    @Override
+    public void registerReply(ReplyDTO dto) {
+
+        log.info(dto);
+
+        Reply reply = modelMapper.map(dto, Reply.class);
+        log.info(reply);
+
+        repository.save(reply);
+
+    }
+
+    @Override
+    public ReplyDTO read(Long rno) {
+
+        Optional<Reply> result = repository.findById(rno);
+        Reply reply = result.orElseThrow();
+
+        ReplyDTO dto = modelMapper.map(reply, ReplyDTO.class);
+
+        return dto;
 
     }
     

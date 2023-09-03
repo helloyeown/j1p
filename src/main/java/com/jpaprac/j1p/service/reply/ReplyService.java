@@ -11,4 +11,8 @@ public interface ReplyService {
     
     PageResponseDTO<ReplyDTO> list(ReplyPageReqeustDTO dto);
 
+    void registerReply(ReplyDTO dto);
+
+    ReplyDTO read(Long rno);
+
 }
