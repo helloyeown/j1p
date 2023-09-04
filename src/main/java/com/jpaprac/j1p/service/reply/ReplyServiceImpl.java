@@ -77,5 +77,31 @@ public class ReplyServiceImpl implements ReplyService {
         return dto;
 
     }
+
+    @Override
+    public void deleteReply(Long rno) {
+
+        Optional<Reply> result = repository.findById(rno);
+        Reply reply = result.orElseThrow();
+
+        reply.changeReply("삭제된 댓글입니다.");
+        reply.changeFile(null);
+
+        repository.save(reply);
+
+    }
+
+    @Override
+    public void modifyReply(ReplyDTO dto) {
+
+        Optional<Reply> result = repository.findById(dto.getRno());
+        Reply reply = result.orElseThrow();
+
+        reply.changeReply(dto.getReply());
+        reply.changeFile(dto.getReplyFile());
+
+        repository.save(reply);
+
+    }
     
 }

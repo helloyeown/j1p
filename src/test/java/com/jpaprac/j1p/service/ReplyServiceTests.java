@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.jpaprac.j1p.domain.Reply;
 import com.jpaprac.j1p.dto.page.PageResponseDTO;
 import com.jpaprac.j1p.dto.reply.ReplyDTO;
 import com.jpaprac.j1p.dto.reply.ReplyPageReqeustDTO;
@@ -51,6 +52,14 @@ public class ReplyServiceTests {
     public void readTest(){
 
         log.info(replyService.read(74L));
+
+    }
+
+    // 삭제
+    @Test
+    public void deleteTest(){
+
+        replyService.deleteReply(79L);
 
     }
 

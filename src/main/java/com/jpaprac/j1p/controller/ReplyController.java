@@ -3,9 +3,11 @@ package com.jpaprac.j1p.controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +53,24 @@ public class ReplyController {
     public ReplyDTO read(@PathVariable Long rno){
 
         return replyService.read(rno);
+
+    }
+
+    // 삭제
+    @DeleteMapping("/{rno}")
+    public Map<String, Long> delete(@PathVariable Long rno){
+
+        replyService.deleteReply(rno);
+        return Map.of("result", rno);
+
+    }
+
+    // 수정
+    @PutMapping("/{rno}")
+    public Map<String, String> modify(@RequestBody ReplyDTO dto){
+
+        replyService.modifyReply(dto);
+        return Map.of("result", "success");
 
     }
 
